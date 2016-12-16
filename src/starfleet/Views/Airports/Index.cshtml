@@ -1,0 +1,86 @@
+<div class="row">
+<div ng-controller="SearchController as search" class="col-sm-6">
+    <div class="row">
+        <div class="col-xs-12">
+             <form>
+            <div class="input-group">
+                
+                <span class="input-group-addon"><span class="fa fa-search" ng-show="!search.loadingSuggestions"></span> <span class="fa fa-spinner fa-spin" ng-show="search.loadingSuggestions"></span></span>
+                <input type="text" class="form-control" placeholder="Search for airports..." 
+                ng-model="search.searchText" ng-disabled="search.searching" 
+                autocomplete="off" typeahead-wait-ms="300" typeahead-min-length="2" 
+                uib-typeahead="item.document.name as item.text + ' - '+ item.document.name for item in search.getSuggestions($viewValue)" 
+                typeahead-loading="search.loadingSuggestions">
+                <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit" ng-click="search.search($event)" ng-disabled="search.searching">Search</button>
+                </div>
+            </div>
+            </form>   
+        </div>
+        
+    </div>
+    <div class="row" ng-show="search.searching">
+        <div class="col-xs-12">
+            <img src="/images/loading.gif" class="center-block">
+        </div>
+    </div>
+    <div class="row" ng-show="search.results.count">
+        <div class="col-xs-12">
+            <div class="alert alert-info"><i class="fa fa-info"></i> There are {{search.results.count}} available airports</div>
+
+             <div class="col-xs-12">
+                    <div class="well well-sm">
+                    <div class="card card-block" ng-show="search.filters">
+                    <h4  class="card-title">Applied filters</h4>
+                    <ul  class="list-unstyled">
+                        <li ng-repeat="(key, value) in search.filters"><a href="#" ng-click="search.filter($event, key, value)"><span class="fa fa-minus-circle"></span></a> {{key}} {{value}}</li>
+                    </ul>                        
+                    </div>
+                    <div class="card card-block"  ng-repeat="(key, value) in search.results.facets">
+                    <h4  class="card-title">{{key}}</h4>
+                    <ul  class="list-unstyled">
+                        <li ng-repeat="filtro in value" ng-if="filtro.value"><a href="#" ng-click="search.filter($event, key, filtro.value)"><span class="fa fa-filter"></span> {{filtro.value}}</a> <span class="label label-default label-pill pull-right">{{filtro.count}}</span></li>
+                    </ul>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-controller="MapController as ctrl" class="col-sm-6">    
+    <ui-gmap-google-map center='ctrl.map.center' zoom='ctrl.map.zoom' ng-if="!ctrl.loading">
+        <ui-gmap-markers options="'options'" coords="'location'" fit="'true'" docluster="false" models="ctrl.markers" idkey="'id'" click="ctrl.onClick">
+        </ui-gmap-markers>
+    </ui-gmap-google-map>
+</div>
+</div>
+
+<script type="text/ng-template" id="airlines.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Available airlines</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="well well-sm">
+                    <strong>Airport:</strong> {{$ctrl.airport.name}}<br>
+                    <strong>Location:</strong> {{$ctrl.airport.city}}, {{$ctrl.airport.country}}
+                </div>
+            </div>
+            <table class="table table-condensed">
+                <tr>
+                    <th>Name</th>
+                    <th>IATA</th>
+                    <th>ICAO</th>
+                    <th>Active</th>
+                    <th>Callsign</th>
+                </tr>
+                <tr ng-repeat="airline in $ctrl.airlines">
+                    <td>{{airline.name}}</td>
+                    <td>{{airline.iata}}</td>
+                    <td>{{airline.icao}}</td>
+                    <td>{{airline.active}}</td>
+                    <td>{{airline.callsign}}</td>
+                </tr>
+            </table>
+        </div>
+    </script>

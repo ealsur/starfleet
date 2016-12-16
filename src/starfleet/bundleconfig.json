@@ -1,0 +1,12 @@
+[
+   {
+    "outputFileName": "wwwroot/js/libraries.js",
+    "inputFiles": [ 
+        "bower_components/angular/angular.min.js",
+        "bower_components/lodash/dist/lodash.min.js",
+        "bower_components/angular-simple-logger/dist/angular-simple-logger.min.js",
+        "bower_components/angular-google-maps/dist/angular-google-maps.min.js"
+     ],
+    "minify": { "enabled":false }
+  }
+]

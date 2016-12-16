@@ -1,0 +1,14 @@
+.angular-google-map-container { height: 550px; }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+.splash{
+    display: flex;
+
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+
+}
+body { padding-top: 70px; }
